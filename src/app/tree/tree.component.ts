@@ -8,14 +8,14 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
   styleUrls: ['./tree.component.css'],
 })
 export class TreeComponent {
-  treeControl = new NestedTreeControl<FoodNode>((node) => node.children);
-  dataSource = new MatTreeNestedDataSource<FoodNode>();
+  treeControl = new NestedTreeControl<TreeNode>((node) => node.children);
+  dataSource = new MatTreeNestedDataSource<TreeNode>();
 
   constructor() {
     this.dataSource.data = TREE_DATA;
   }
 
-  hasChild = (_: number, node: FoodNode) =>
+  hasChild = (_: number, node: TreeNode) =>
     !!node.children && node.children.length > 0;
 }
 
@@ -23,27 +23,61 @@ export class TreeComponent {
  * Food data with nested structure.
  * Each node has a name and an optional list of children.
  */
-interface FoodNode {
+interface TreeNode {
   name: string;
-  children?: FoodNode[];
+  children?: TreeNode[];
 }
 
-const TREE_DATA: FoodNode[] = [
+const TREE_DATA: TreeNode[] = [
   {
-    name: 'Fruit',
-    children: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Fruit loops' }],
-  },
-  {
-    name: 'Vegetables',
+    name: '25°C-60HR', // condition
     children: [
       {
-        name: 'Green',
-        children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+        name: '1 month', // interval
+        children: [
+          {
+            name: 'Pilulier', // Packaging
+            children: [
+              {
+                name: 'None', // Application
+                children: [
+                  {
+                    name: 'LDT', // Analysis department
+                  },
+                  {
+                    name: 'SCQA-Physico', // Analysis department
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
+    ],
+  },
+  {
+    name: '40°C-30HR', // condition
+    children: [
       {
-        name: 'Orange',
-        children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+        name: '1 month', // interval
+        children: [
+          {
+            name: 'Pilulier', // Packaging
+            children: [
+              {
+                name: '0.1% Conc fabric softener', // Application
+                children: [
+                  {
+                    name: 'CRP', // Analysis department
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
+      { name: '3 months' },
+      { name: '18 months' },
     ],
   },
 ];
