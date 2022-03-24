@@ -21,31 +21,38 @@ export class TreeComponent {
 
 /**
  * Food data with nested structure.
- * Each node has a name and an optional list of children.
+ * Each node has a key, a value and an optional list of children.
  */
 interface TreeNode {
-  name: string;
+  key: string;
+  value: string;
   children?: TreeNode[];
 }
 
 const TREE_DATA: TreeNode[] = [
   {
-    name: '25°C-60HR', // condition
+    key: 'Condition',
+    value: '25°C-60HR', // condition
     children: [
       {
-        name: '1 month', // interval
+        key: 'Interval',
+        value: '1 month', // interval
         children: [
           {
-            name: 'Pilulier', // Packaging
+            key: 'Packaging',
+            value: 'Pilulier', // Packaging
             children: [
               {
-                name: 'None', // Application
+                key: 'Application',
+                value: 'None', // Application
                 children: [
                   {
-                    name: 'LDT', // Analysis department
+                    key: 'Analysis department',
+                    value: 'LDT', // Analysis department
                   },
                   {
-                    name: 'SCQA-Physico', // Analysis department
+                    key: 'Analysis department',
+                    value: 'SCQA-Physico', // Analysis department
                   },
                 ],
               },
@@ -56,19 +63,28 @@ const TREE_DATA: TreeNode[] = [
     ],
   },
   {
-    name: '40°C-30HR', // condition
+    key: 'Condition',
+    value: '40°C-30HR', // condition
     children: [
       {
-        name: '1 month', // interval
+        key: 'Interval',
+        value: '1 month', // interval
         children: [
           {
-            name: 'Pilulier', // Packaging
+            key: 'Packaging',
+            value: 'Pilulier', // Packaging
             children: [
               {
-                name: '0.1% Conc fabric softener', // Application
+                key: 'Application',
+                value: 'None', // Application
                 children: [
                   {
-                    name: 'CRP', // Analysis department
+                    key: 'Analysis department',
+                    value: 'LDT', // Analysis department
+                  },
+                  {
+                    key: 'Analysis department',
+                    value: 'SCQA-Physico', // Analysis department
                   },
                 ],
               },
@@ -76,8 +92,31 @@ const TREE_DATA: TreeNode[] = [
           },
         ],
       },
-      { name: '3 months' },
-      { name: '18 months' },
     ],
   },
+  // {
+  //   value: '40°C-30HR', // condition
+  //   children: [
+  //     {
+  //       value: '1 month', // interval
+  //       children: [
+  //         {
+  //           value: 'Pilulier', // Packaging
+  //           children: [
+  //             {
+  //               value: '0.1% Conc fabric softener', // Application
+  //               children: [
+  //                 {
+  //                   value: 'CRP', // Analysis department
+  //                 },
+  //               ],
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //     { value: '3 months' },
+  //     { value: '18 months' },
+  //   ],
+  // },
 ];
