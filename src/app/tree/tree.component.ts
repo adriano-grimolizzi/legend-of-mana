@@ -24,35 +24,35 @@ export class TreeComponent {
  * Each node has a key, a value and an optional list of children.
  */
 interface TreeNode {
+  item: TemplateItem;
+  children?: TreeNode[];
+}
+
+interface TemplateItem {
   key: string;
   value: string;
-  children?: TreeNode[];
 }
 
 const TREE_DATA: TreeNode[] = [
   {
-    key: 'Condition',
-    value: '25°C-60HR', // condition
+    item: { key: 'Condition', value: '25°C-60HR' },
     children: [
       {
-        key: 'Interval',
-        value: '1 month', // interval
+        item: { key: 'Interval', value: '1 month' },
         children: [
           {
-            key: 'Packaging',
-            value: 'Pilulier', // Packaging
+            item: { key: 'Packaging', value: 'Pilulier' },
             children: [
               {
-                key: 'Application',
-                value: 'None', // Application
+                item: { key: 'Application', value: 'None' },
                 children: [
                   {
-                    key: 'Analysis department',
-                    value: 'LDT', // Analysis department
+                    item: { key: 'AnalysisDepartment', value: 'LDT' },
+                    children: [],
                   },
                   {
-                    key: 'Analysis department',
-                    value: 'SCQA-Physico', // Analysis department
+                    item: { key: 'AnalysisDepartment', value: 'SCQA-Physico' },
+                    children: [],
                   },
                 ],
               },
@@ -63,60 +63,7 @@ const TREE_DATA: TreeNode[] = [
     ],
   },
   {
-    key: 'Condition',
-    value: '40°C-30HR', // condition
-    children: [
-      {
-        key: 'Interval',
-        value: '1 month', // interval
-        children: [
-          {
-            key: 'Packaging',
-            value: 'Pilulier', // Packaging
-            children: [
-              {
-                key: 'Application',
-                value: 'None', // Application
-                children: [
-                  {
-                    key: 'Analysis department',
-                    value: 'LDT', // Analysis department
-                  },
-                  {
-                    key: 'Analysis department',
-                    value: 'SCQA-Physico', // Analysis department
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    item: { key: 'Condition', value: '40°C-30HR' },
+    children: [{ item: { key: 'Interval', value: '2 month' }, children: [] }],
   },
-  // {
-  //   value: '40°C-30HR', // condition
-  //   children: [
-  //     {
-  //       value: '1 month', // interval
-  //       children: [
-  //         {
-  //           value: 'Pilulier', // Packaging
-  //           children: [
-  //             {
-  //               value: '0.1% Conc fabric softener', // Application
-  //               children: [
-  //                 {
-  //                   value: 'CRP', // Analysis department
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //     { value: '3 months' },
-  //     { value: '18 months' },
-  //   ],
-  // },
 ];
