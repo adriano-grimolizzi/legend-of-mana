@@ -1,6 +1,6 @@
 import { TemplateItem } from './TemplateItem';
 
 export interface TreeNode {
-  item: TemplateItem;
+  items: TemplateItem[];
   children?: TreeNode[];
 }
