@@ -1,0 +1,18 @@
+/* .template-element-class {
+    border: 5px solid red;
+} */
+
+.key-class {
+    color: gray;
+    font-size: small;
+}
+
+.value-class {
+    color: black;
+    font-size: normal;
+    font-weight: bold;
+}
+
+span {
+    margin-left: 10px;
+}

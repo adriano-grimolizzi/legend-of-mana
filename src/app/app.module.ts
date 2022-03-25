@@ -8,12 +8,16 @@ import { TreeComponent } from './tree/tree.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { TreeChecklistExampleComponent } from './tree-checklist-example/tree-checklist-example.component';
+import { TreeElementComponent } from './tree-element/tree-element.component';
+import { TreeElementListComponent } from './tree-element-list/tree-element-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TreeComponent,
     TreeChecklistExampleComponent,
+    TreeElementComponent,
+    TreeElementListComponent,
   ],
   imports: [
     BrowserModule,
