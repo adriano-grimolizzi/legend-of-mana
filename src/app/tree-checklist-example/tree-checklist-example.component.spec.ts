@@ -1,14 +1,5 @@
 import { AnalysisTemplate } from '../model/AnalysisTemplate';
-
-interface TreeNode {
-  item: TemplateItem;
-  children?: TreeNode[];
-}
-
-interface TemplateItem {
-  key: string;
-  value: string;
-}
+import { TreeNode } from '../model/TreeNode';
 
 const input: AnalysisTemplate = {
   id: 1,
@@ -30,9 +21,11 @@ const input: AnalysisTemplate = {
                   analysisDepartments: [
                     {
                       analysisDepartment: 'LDT',
+                      remark: 'Microspie',
                     },
                     {
                       analysisDepartment: 'SCQA-Physico',
+                      remark: 'Microspie',
                     },
                   ],
                 },
@@ -49,33 +42,61 @@ const input: AnalysisTemplate = {
   ],
 };
 
+export class KeySelectorLabel {
+  beLabel: string;
+  treeLabel: string;
+}
+
 export class KeySelector {
-  backEndArrayKey: string;
-  backEndObjectKey: string;
-  nodeKey: string;
+  beParentSelector: string;
+  properties: KeySelectorLabel[];
   next?: KeySelector;
 }
 
 const keySelector: KeySelector = {
-  backEndArrayKey: 'conditions',
-  backEndObjectKey: 'condition',
-  nodeKey: 'Condition',
+  beParentSelector: 'conditions',
+  properties: [
+    {
+      beLabel: 'condition',
+      treeLabel: 'Condition',
+    },
+  ],
   next: {
-    backEndArrayKey: 'intervals',
-    backEndObjectKey: 'interval',
-    nodeKey: 'Interval',
+    beParentSelector: 'intervals',
+    properties: [
+      {
+        beLabel: 'interval',
+        treeLabel: 'Interval',
+      },
+    ],
     next: {
-      backEndArrayKey: 'packagings',
-      backEndObjectKey: 'packaging',
-      nodeKey: 'Packaging',
+      beParentSelector: 'packagings',
+      properties: [
+        {
+          beLabel: 'packaging',
+          treeLabel: 'Packaging',
+        },
+      ],
       next: {
-        backEndArrayKey: 'applications',
-        backEndObjectKey: 'application',
-        nodeKey: 'Application',
+        beParentSelector: 'applications',
+        properties: [
+          {
+            beLabel: 'application',
+            treeLabel: 'Application',
+          },
+        ],
         next: {
-          backEndArrayKey: 'analysisDepartments',
-          backEndObjectKey: 'analysisDepartment',
-          nodeKey: 'AnalysisDepartment',
+          beParentSelector: 'analysisDepartments',
+          properties: [
+            {
+              beLabel: 'analysisDepartment',
+              treeLabel: 'AnalysisDepartment',
+            },
+            {
+              beLabel: 'remark',
+              treeLabel: 'Remark',
+            },
+          ],
         },
       },
     },
@@ -84,60 +105,59 @@ const keySelector: KeySelector = {
 
 const output: TreeNode[] = [
   {
-    item: { key: 'Condition', value: '25°C-60HR' },
-    children: [
-      {
-        item: { key: 'Interval', value: '1 month' },
-        children: [
+      items: [{ key: 'Condition', value: '25°C-60HR' }],
+      children: [
           {
-            item: { key: 'Packaging', value: 'Pilulier' },
-            children: [
-              {
-                item: { key: 'Application', value: 'None' },
-                children: [
+              items: [{ key: 'Interval', value: '1 month' }],
+              children: [
                   {
-                    item: { key: 'AnalysisDepartment', value: 'LDT' },
-                    children: [],
+                      items: [{ key: 'Packaging', value: 'Pilulier' }],
+                      children: [
+                          {
+                              items: [{ key: 'Application', value: 'None' }],
+                              children: [
+                                  {
+                                      items: [
+                                          { key: 'AnalysisDepartment', value: 'LDT' },
+                                          { key: 'Remark', value: 'Microspie' },
+                                      ],
+                                      children: [],
+                                  },
+                                  {
+                                      items: [
+                                          { key: 'AnalysisDepartment', value: 'SCQA-Physico' },
+                                          { key: 'Remark', value: 'Microspie' },
+                                      ],
+                                      children: [],
+                                  },
+                              ],
+                          },
+                      ],
                   },
-                  {
-                    item: { key: 'AnalysisDepartment', value: 'SCQA-Physico' },
-                    children: [],
-                  },
-                ],
-              },
-            ],
+              ],
           },
-        ],
-      },
-    ],
+      ],
   },
   {
-    item: { key: 'Condition', value: '40°C-30HR' },
-    children: [{ item: { key: 'Interval', value: '2 month' }, children: [] }],
+      items: [{ key: 'Condition', value: '40°C-30HR' }],
+      children: [
+          { items: [{ key: 'Interval', value: '2 month' }], children: [] },
+      ],
   },
 ];
 
-const mapObjectToTree = (object: any, keySelector?: KeySelector) => {
-  if (!keySelector) {
-    return [];
-  }
-
-  const currentLevel = object[keySelector.backEndArrayKey];
-
-  const mappedLevel = currentLevel.map((element: any) => ({
-    item: {
-      key: keySelector.nodeKey,
-      value: element[keySelector.backEndObjectKey],
-    },
-    children: mapObjectToTree(element, keySelector.next),
-  }));
-
-  return mappedLevel;
-};
+const mapBeToTree = (input: any, selector?: KeySelector) => !selector ? [] :
+    input[selector.beParentSelector].map((element: any) => ({
+        items: selector.properties.map(selector => ({
+            key: selector.treeLabel,
+            value: element[selector.beLabel]
+        })),
+        children: mapBeToTree(element, selector.next)
+    }))
 
 describe('TreeChecklistExampleComponent', () => {
-  fit('should create', () => {
+  fit('should map from BE to FE Tree', () => {
     // expect(mapAnalysisTemplate(input)).toEqual(output);
-    expect(mapObjectToTree(input, keySelector)).toEqual(output);
+    expect(mapBeToTree(input, keySelector)).toEqual(output);
   });
 });
