@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { TreeNode } from '../model/TreeNode';
 
 @Component({
   selector: 'app-tree-component',
@@ -19,39 +20,31 @@ export class TreeComponent {
     !!node.children && node.children.length > 0;
 }
 
-/**
- * Food data with nested structure.
- * Each node has a key, a value and an optional list of children.
- */
-interface TreeNode {
-  item: TemplateItem;
-  children?: TreeNode[];
-}
-
-interface TemplateItem {
-  key: string;
-  value: string;
-}
-
 const TREE_DATA: TreeNode[] = [
   {
-    item: { key: 'Condition', value: '25°C-60HR' },
+    items: [{ key: 'Condition', value: '25°C-60HR' }],
     children: [
       {
-        item: { key: 'Interval', value: '1 month' },
+        items: [{ key: 'Interval', value: '1 month' }],
         children: [
           {
-            item: { key: 'Packaging', value: 'Pilulier' },
+            items: [{ key: 'Packaging', value: 'Pilulier' }],
             children: [
               {
-                item: { key: 'Application', value: 'None' },
+                items: [{ key: 'Application', value: 'None' }],
                 children: [
                   {
-                    item: { key: 'AnalysisDepartment', value: 'LDT' },
+                    items: [
+                      { key: 'AnalysisDepartment', value: 'LDT' },
+                      { key: 'Remark', value: 'Microspie' },
+                    ],
                     children: [],
                   },
                   {
-                    item: { key: 'AnalysisDepartment', value: 'SCQA-Physico' },
+                    items: [
+                      { key: 'AnalysisDepartment', value: 'SCQA-Physico' },
+                      { key: 'Remark', value: 'Microspie' },
+                    ],
                     children: [],
                   },
                 ],
@@ -63,7 +56,9 @@ const TREE_DATA: TreeNode[] = [
     ],
   },
   {
-    item: { key: 'Condition', value: '40°C-30HR' },
-    children: [{ item: { key: 'Interval', value: '2 month' }, children: [] }],
+    items: [{ key: 'Condition', value: '40°C-30HR' }],
+    children: [
+      { items: [{ key: 'Interval', value: '2 month' }], children: [] },
+    ],
   },
 ];
