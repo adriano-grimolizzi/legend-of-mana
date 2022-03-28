@@ -126,9 +126,11 @@ export class Database {
           children: this.buildFileTree(element, selector.next),
         }));
 
-  insertItem(parent: TreeNode, name: string) {
+  insertItem(parent: TreeNode, item: string) {
     if (parent.children) {
-      //   parent.children.push({ item: name } as TreeNode);
+        const newNode = new TreeNode();
+        newNode.items = []
+        parent.children.push(newNode);
       this.dataChange.next(this.data);
     }
   }

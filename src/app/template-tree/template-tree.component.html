@@ -5,9 +5,7 @@
     matTreeNodeToggle
     matTreeNodePadding
   >
-    <app-tree-element-list
-      [treeElementList]="node.items"
-    ></app-tree-element-list>
+  <app-tree-element-list [treeElementList]="node.items"></app-tree-element-list>
   </mat-tree-node>
 
   <!-- NO CONTENT -->
@@ -29,9 +27,7 @@
         {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
       </mat-icon>
     </button>
-    <app-tree-element-list
-      [treeElementList]="node.items"
-    ></app-tree-element-list>
+    <app-tree-element-list [treeElementList]="node.items"></app-tree-element-list>
     <button mat-icon-button (click)="addNewItem(node)">
       <mat-icon>add</mat-icon>
     </button>

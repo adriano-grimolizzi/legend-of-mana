@@ -59,7 +59,7 @@ export class TemplateTreeComponent {
   getChildren = (node: TreeNode) => node.children;
   hasChild = (_index: number, nodeData: FlatTreeNode) => nodeData.expandable;
   hasNoContent = (_index: number, nodeData: FlatTreeNode) =>
-    nodeData.items === [];
+    nodeData.items.length === 0;
 
   transformer = (node: TreeNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
