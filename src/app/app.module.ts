@@ -15,6 +15,7 @@ import { TreeElementListComponent } from './tree-element-list/tree-element-list.
 import { TreeExampleComponent } from './nested-tree-example/tree-example.component';
 import { FlatTreeExampleComponent } from './flat-tree-example/flat-tree-example.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { TemplateTreeComponent } from './template-tree/template-tree.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
     TreeExampleComponent,
     FlatTreeExampleComponent,
     CheckboxComponent,
+    TemplateTreeComponent,
   ],
   imports: [
     BrowserModule,
