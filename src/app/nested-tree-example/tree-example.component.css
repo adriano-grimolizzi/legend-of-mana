@@ -1,0 +1,15 @@
+.leaf-node {
+    padding-left: 30px;
+}
+
+.example-tree-invisible {
+    display: none;
+}
+
+.example-tree .mat-nested-tree-node .nested-node {
+    padding-left: 40px;
+}
+
+.example-tree .nested-node > .mat-tree-node {
+    padding-left: 40px;
+}
