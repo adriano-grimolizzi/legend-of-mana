@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AnalysisTemplate } from './model/AnalysisTemplate';
 import { KeySelector } from './model/KeySelector';
-import { TreeNode } from './model/TreeNode';
+import { Item, TreeNode } from './model/TreeNode';
 
 const TREE_DATA: AnalysisTemplate = {
   id: 1,
@@ -115,7 +115,7 @@ export class Database {
     this.dataChange.next(data);
   }
 
-  buildFileTree = (input: any, selector?: KeySelector) =>
+  buildFileTree = (input: any, selector?: KeySelector): TreeNode[] =>
     !selector
       ? []
       : input[selector.beParentSelector].map((element: any) => ({
@@ -126,17 +126,24 @@ export class Database {
           children: this.buildFileTree(element, selector.next),
         }));
 
-  insertItem(parent: TreeNode, item: string) {
+  insertItem(parent: TreeNode, items: Item[]) {
     if (parent.children) {
-        const newNode = new TreeNode();
-        newNode.items = []
-        parent.children.push(newNode);
+      const newNode = new TreeNode();
+      newNode.items = items;
+      parent.children.push(newNode);
       this.dataChange.next(this.data);
     }
   }
 
-  updateItem(node: TreeNode, name: string) {
-    // node.item = name;
+  updateItem(node: TreeNode, value: string) {
+    console.log(JSON.stringify(node, null, 2));
+    const key = node.items[0].key;
+    
+    node.items = [];
+
+    node.items.push({key, value} as Item)
+    node.children = []
+
     this.dataChange.next(this.data);
   }
 }

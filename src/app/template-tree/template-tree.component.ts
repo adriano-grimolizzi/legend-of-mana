@@ -6,7 +6,7 @@ import {
   MatTreeFlattener,
 } from '@angular/material/tree';
 import { Database } from './Database';
-import { FlatTreeNode, TreeNode } from './model/TreeNode';
+import { FlatTreeNode, Item, TreeNode } from './model/TreeNode';
 
 @Component({
   selector: 'app-template-tree',
@@ -59,12 +59,17 @@ export class TemplateTreeComponent {
   getChildren = (node: TreeNode) => node.children;
   hasChild = (_index: number, nodeData: FlatTreeNode) => nodeData.expandable;
   hasNoContent = (_index: number, nodeData: FlatTreeNode) =>
-    nodeData.items.length === 0;
+    nodeData.items[0].value === '';
 
-  transformer = (node: TreeNode, level: number) => {
+  arrayEquals = (array1: Item[], array2: Item[]) =>
+    JSON.stringify(array1) === JSON.stringify(array2);
+
+  transformer = (node: TreeNode, level: number): FlatTreeNode => {
     const existingNode = this.nestedNodeMap.get(node);
-    const flatNode =
-      existingNode?.items === node.items ? existingNode : new FlatTreeNode();
+    const flatNode: FlatTreeNode =
+      existingNode && this.arrayEquals(existingNode.items, node.items)
+        ? existingNode
+        : new FlatTreeNode();
     flatNode.items = node.items;
     flatNode.level = level;
     flatNode.expandable = !!node.children?.length;
@@ -74,16 +79,20 @@ export class TemplateTreeComponent {
   };
 
   addNewItem(node: FlatTreeNode) {
-    console.log(node);
-    const parentNode = this.flatNodeMap.get(node);
-    console.log(parentNode)
-    this._database.insertItem(parentNode!, '');
-    this.treeControl.expand(node);
+    // console.log(JSON.stringify(node, null, 2));
+    const nestedNode = this.flatNodeMap.get(node);
+    // console.log(JSON.stringify(flatNode, null, 2));
+    if (nestedNode) {
+      this._database.insertItem(nestedNode!, [
+        { key: nestedNode?.children?.[0].items[0].key || '', value: '' },
+      ]);
+      this.treeControl.expand(node);
+    }
   }
 
   saveNode(node: FlatTreeNode, itemValue: string) {
+    // console.log(JSON.stringify(node, null, 2));
     const nestedNode = this.flatNodeMap.get(node);
     this._database.updateItem(nestedNode!, itemValue);
-    console.log(node);
   }
 }

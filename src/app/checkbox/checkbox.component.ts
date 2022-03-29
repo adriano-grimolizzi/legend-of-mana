@@ -92,7 +92,6 @@ export class CheckboxComponent {
   saveNode(node: FlatTodoNode, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node)
     this._database.updateItem(nestedNode!, itemValue)
-    console.log(node)
   }
   
 }

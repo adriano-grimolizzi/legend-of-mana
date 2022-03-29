@@ -1,4 +1,7 @@
-import { Item } from './Item';
+export interface Item {
+  key: string;
+  value: string;
+}
 
 export class TreeNode {
   items: Item[];
